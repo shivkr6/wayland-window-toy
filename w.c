@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 struct wl_compositor* comp;
+struct wl_surface* srfc;
 
 void reg_glob(void* data, struct wl_registry* reg, uint32_t name, int8_t* intf, uint32_t v) {
 	if (!strcmp(intf, wl_compositor_interface.name)) {
@@ -26,6 +27,9 @@ int8_t main() {
 	wl_registry_add_listener(reg, &reg_list, 0);
 	wl_display_roundtrip(disp);
 	
+	srfc = wl_compositor_create_surface(comp);
+
+	wl_surface_destroy(srfc);
 	wl_display_disconnect(disp);
 	return 0;
 }
